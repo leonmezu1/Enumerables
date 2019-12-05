@@ -54,4 +54,4 @@ module Enumerable
 end
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
-puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 1 }
+puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
