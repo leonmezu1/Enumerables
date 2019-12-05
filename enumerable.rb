@@ -15,7 +15,13 @@ module Enumerable
   end
 
   def my_each_with_index(input, index = 0)
-    nil
+    output = []
+    range = input.length - index
+    range.times do
+      output.push("#{yield(input[index])}. #{index}")
+      index += 1
+    end
+    output
   end
 
   def my_select
@@ -47,4 +53,5 @@ module Enumerable
   end
 end
 
-puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
+# puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
+puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 1 }
