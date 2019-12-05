@@ -1,9 +1,18 @@
+include Enumerable
+
 # frozen_string_literal: true
 
 # doc comment
 module Enumerable
-  def my_each
-    nil
+  def my_each(input)
+    i = 0
+    output = []
+    range = input.length
+    range.times do
+      output.push(yield(input[i]))
+      i += 1
+    end
+    output
   end
 
   def my_each_with_index
@@ -38,3 +47,5 @@ module Enumerable
     nil
   end
 end
+
+puts my_each([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
