@@ -43,12 +43,28 @@ def my_all?(input, index = 0)
   output
 end
 
-def my_any?
-  nil
+def my_any?(input, index = 0)
+  trigger = true
+  output = false
+  while trigger && index < input.length
+    if yield(input[index]) == true
+      trigger = false
+      output = true
+    end
+    index += 1
+  end
+  output
 end
 
 def my_none?
-  nil
+  trigger = true
+  output = true
+  range = input.length
+  while trigger && index < range
+    trigger && output = false if yield(input[index]) == false
+    index += 1
+  end
+  output
 end
 
 def my_count
@@ -66,4 +82,5 @@ end
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
 # puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
 # puts my_select([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
-puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x >= 2 }
+# puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x > -1 }
+# puts my_any?([1, 2, 3, 4, 5, 6], 4) { |x| x == 5 }
