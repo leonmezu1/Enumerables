@@ -33,11 +33,10 @@ def my_select(input, index = 0)
 end
 
 def my_all?(input, index = 0)
-  trigger = true
   output = true
-  range = input.length
-  while trigger && index < range
-    trigger && output = false if yield(input[index]) == false
+  while index < input.length
+    return false if yield(input[index]) == false
+
     index += 1
   end
   output
@@ -78,6 +77,6 @@ end
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
 # puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
 # puts my_select([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
-# puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x > -1 }
+# puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x <= 6 }
 # puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
