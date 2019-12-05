@@ -24,8 +24,14 @@ module Enumerable
     output
   end
 
-  def my_select
-    nil
+  def my_select(input, index = 0)
+    output = []
+    range = input.length - index
+    range.times do
+      output.push(input[index]) if yield(input[index])
+      index += 1
+    end
+    output
   end
 
   def my_all?
@@ -54,4 +60,5 @@ module Enumerable
 end
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
-puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
+# puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
+# puts my_select([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
