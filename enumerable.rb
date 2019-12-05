@@ -4,18 +4,17 @@ include Enumerable
 
 # doc comment
 module Enumerable
-  def my_each(input)
-    i = 0
+  def my_each(input, index = 0)
     output = []
-    range = input.length
+    range = input.length - index
     range.times do
-      output.push(yield(input[i]))
-      i += 1
+      output.push(yield(input[index]))
+      index += 1
     end
     output
   end
 
-  def my_each_with_index
+  def my_each_with_index(input, index = 0)
     nil
   end
 
@@ -48,4 +47,4 @@ module Enumerable
   end
 end
 
-puts my_each([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
+puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
