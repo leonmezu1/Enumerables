@@ -50,17 +50,17 @@ module Enumerable
     output
   end
 
-  def my_any?(input, index = 0)
+  def my_any?(index = 0)
     output = false
     unless block_given?
-      while index < input.length
-        return true if input[index] == true
+      while index < length
+        return true if self[index] == true
 
         index += 1
       end
     end
-    while index < input.length
-      return true if yield(input[index]) == true
+    while index < length
+      return true if yield(self[index]) == true
 
       index += 1
     end
@@ -129,11 +129,11 @@ end
 # puts [1, 2, 3, 4, 5, 6].my_each_with_index(2) { |x| x * 3 }
 # puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
 # puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
-# puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
+  puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
 # puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
 # puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x * x }
 
-arr = [2, 2, 3, 4]
+# arr = [2, 2, 3, 4]
 
-puts arr.my_select(3) { |x| x > 2 }
+# puts arr.my_select(3) { |x| x > 2 }
