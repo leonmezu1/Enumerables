@@ -34,6 +34,13 @@ end
 
 def my_all?(input, index = 0)
   output = true
+  unless block_given?
+    while index < input.length
+      return false if input[index] == false
+
+      index += 1
+    end
+  end
   while index < input.length
     return false if yield(input[index]) == false
 
@@ -44,6 +51,13 @@ end
 
 def my_any?(input, index = 0)
   output = false
+  unless block_given?
+    while index < input.length
+      return true if input[index] == true
+
+      index += 1
+    end
+  end
   while index < input.length
     return true if yield(input[index]) == true
 
@@ -54,6 +68,13 @@ end
 
 def my_none?(input, index = 0)
   output = true
+  unless block_given?
+    while index < input.length
+      return false if input[index] == true
+
+      index += 1
+    end
+  end
   while index < input.length
     return false if yield(input[index]) == true
 
@@ -86,8 +107,18 @@ def my_map(input, index = 0)
   output
 end
 
-def my_inject
-  nil
+def my_inject(input, aux = 0)
+  return input if input.length < 2
+
+  accumulator = yield(yield(input[0], aux), input[1])
+  if input.length > 2
+    i = 2
+    input.length - 2.times do
+      accumulator = yield(accumulator, input[i])
+      i += 1
+    end
+  end
+  accumulator
 end
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
@@ -97,4 +128,10 @@ end
 # puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
 # puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
-# puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x }
+# puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x * x }
+
+my_test_arr = [2, 2]
+puts my_inject(my_test_arr, 2) { |x, y| x + y }
+puts my_test_arr.inject(2) { |x, y| x + y }
+
+puts my_none?([true, true, true])
