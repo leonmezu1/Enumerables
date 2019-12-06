@@ -84,12 +84,12 @@ module Enumerable
     output
   end
 
-  def my_count(input, index = 0)
+  def my_count(index = 0)
     counter = 0
-    return input.length unless block_given?
+    return length unless block_given?
 
-    while index < input.length
-      counter += 1 if yield(input[index]) == true
+    while index < length
+      counter += 1 if yield(self[index]) == true
 
       index += 1
     end
@@ -130,8 +130,8 @@ end
 # puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
 # puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
-#  puts [false, false].my_none?
-# puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
+# puts [false, false].my_none?
+# puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
 # puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x * x }
 
 # arr = [2, 2, 3, 4]
