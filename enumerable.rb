@@ -96,13 +96,13 @@ module Enumerable
     counter
   end
 
-  def my_map(input, index = 0)
-    return input unless block_given?
+  def my_map(index = 0)
+    return self unless block_given?
 
     output = []
-    range = input.length - index
+    range = length - index
     range.times do
-      output.push(yield(input[index]))
+      output.push(yield(self[index]))
       index += 1
     end
     output
@@ -132,7 +132,7 @@ end
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
 # puts [false, false].my_none?
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
-# puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x * x }
+# puts [1, 2, 3, 4, 5, 6].my_map(3) { |x| x * x }
 
 # arr = [2, 2, 3, 4]
 
