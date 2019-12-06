@@ -32,6 +32,7 @@ def my_select(input, index = 0)
   output
 end
 
+# rubocop: disable Metrics/MethodLength
 def my_all?(input, index = 0)
   output = true
   unless block_given?
@@ -120,6 +121,8 @@ def my_inject(input, aux = 0)
   end
   accumulator
 end
+
+# rubocop: enable Metrics/MethodLength
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
 # puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
