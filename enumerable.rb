@@ -33,17 +33,17 @@ module Enumerable
     output
   end
 
-  def my_all?(input, index = 0)
+  def my_all?(index = 0)
     output = true
     unless block_given?
-      while index < input.length
-        return false if input[index] == false
+      while index < length
+        return false if self[index] == false
 
         index += 1
       end
     end
-    while index < input.length
-      return false if yield(input[index]) == false
+    while index < length
+      return false if yield(self[index]) == false
 
       index += 1
     end
@@ -126,9 +126,9 @@ end
 # rubocop: enable Metrics/MethodLength
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
-# puts my_each_with_index([1, 2, 3, 4, 5, 6]) { |x| x * 3 }
-# puts my_select([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
-# puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x <= 6 }
+# puts [1, 2, 3, 4, 5, 6].my_each_with_index(2) { |x| x * 3 }
+# puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
+# puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
 # puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
 # puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
