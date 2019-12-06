@@ -62,8 +62,16 @@ def my_none?(input, index = 0)
   output
 end
 
-def my_count
-  nil
+def my_count(input, index = 0)
+  counter = 0
+  return input.length unless block_given?
+
+  while index < input.length
+    counter += 1 if yield(input[index]) == true
+
+    index += 1
+  end
+  counter
 end
 
 def my_map
@@ -80,3 +88,5 @@ end
 # puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x <= 6 }
 # puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
+
+puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
