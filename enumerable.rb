@@ -23,11 +23,11 @@ module Enumerable
     output
   end
 
-  def my_select(input, index = 0)
+  def my_select(index = 0)
     output = []
-    range = input.length - index
+    range = length - index
     range.times do
-      output.push(input[index]) if yield(input[index])
+      output.push(self[index]) if yield(self[index])
       index += 1
     end
     output
@@ -136,4 +136,4 @@ end
 
 arr = [2, 2, 3, 4]
 
-puts arr.my_each_with_index(0) { |x| x }
+puts arr.my_select(3) { |x| x > 2 }
