@@ -74,8 +74,16 @@ def my_count(input, index = 0)
   counter
 end
 
-def my_map
-  nil
+def my_map(input, index = 0)
+  return input unless block_given?
+
+  output = []
+  range = input.length - index
+  range.times do
+    output.push(yield(input[index]))
+    index += 1
+  end
+  output
 end
 
 def my_inject
@@ -88,5 +96,5 @@ end
 # puts my_all?([1, 2, 3, 4, 5, 6]) { |x| x <= 6 }
 # puts my_any?([1, 2, 3, 4, 5, 6, 8]) { |x| x > 4 }
 # puts my_none?([1, 2, 3, 4, 5, 6]) { |x| x > 5 }
-
-puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
+# puts my_count([1, 2, 3, 4, 5, 6]) { |x| x >= 1 }
+# puts my_map([1, 2, 3, 4, 5, 6]) { |x| x * x }
