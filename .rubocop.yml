@@ -25,7 +25,9 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-Layout/AlignHash:
+Layout/EndOfLine:
+  EnforcedStyle: lf
+Layout/HashAlignment:
   EnforcedColonStyle: key
 Layout/ExtraSpacing:
   AllowForAlignment: false

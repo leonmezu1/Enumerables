@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # rubocop: disable Metrics/ModuleLength
-# rubocop: disable Metrics/MethodLength
 # doc comment
 module Enumerable
   def my_each
@@ -86,7 +85,6 @@ module Enumerable
   end
   # rubocop: disable Metrics/PerceivedComplexity
   # rubocop: disable Metrics/CyclomaticComplexity
-  # rubocop: disable Metrics/AbcSize
 
   def my_count(aux = nil)
     index = 0
@@ -115,7 +113,6 @@ module Enumerable
 
   # rubocop: enable Metrics/PerceivedComplexity
   # rubocop: enable Metrics/CyclomaticComplexity
-  # rubocop: enable Metrics/AbcSize
 
   def my_map(index = 0)
     return self unless block_given?
@@ -144,7 +141,6 @@ module Enumerable
   end
 end
 
-# rubocop: enable Metrics/MethodLength
 # rubocop: enable Metrics/ModuleLength
 
 # puts my_each([1, 2, 3, 4, 5, 6], 3) { |x| x * 3 }
