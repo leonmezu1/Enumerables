@@ -88,21 +88,21 @@ module Enumerable
   # rubocop: disable Metrics/CyclomaticComplexity
   # rubocop: disable Metrics/AbcSize
 
-  def my_count(aux = 0)
+  def my_count(aux = nil)
     index = 0
     counter = 0
-    if block_given? && aux.zero?
+    if block_given? && aux.nil?
       while index < length
         counter += 1 if yield(self[index]) == true
         index += 1
       end
-    elsif block_given? && !aux.zero?
+    elsif block_given? && !aux.nil?
       while index < length
         counter += 1 if self[index] == aux # && yield(self[index]) == true
         index += 1
       end
       return "#{counter} 'warning: given block not used'"
-    elsif !block_given? && aux.zero?
+    elsif !block_given? && aux.nil?
       return length
     else
       while index < length
@@ -161,5 +161,5 @@ arr = [1, 1, 1, 1, 2]
 # puts arr.my_inject(1) { |sum, n| sum + n }
 # puts arr.inject(1) { |sum, n| sum + n }
 
-puts arr.count(2) { |x| x > 1 }
-puts arr.my_count(2) { |x| x > 1 }
+puts arr.count(1)
+puts arr.my_count(1)
