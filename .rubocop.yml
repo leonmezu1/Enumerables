@@ -27,8 +27,8 @@ Style/ClassAndModuleChildren:
 
 Layout/EndOfLine:
   EnforcedStyle: lf
-Layout/HashAlignment:
-  EnforcedColonStyle: key
+#Layout/HashAlignment:
+#  EnforcedColonStyle: key
 Layout/ExtraSpacing:
   AllowForAlignment: false
 Layout/MultilineMethodCallIndentation:
