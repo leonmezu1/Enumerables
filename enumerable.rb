@@ -3,7 +3,8 @@
 # rubocop: disable Metrics/ModuleLength
 # doc comment
 module Enumerable
-  def my_each
+	def my_each
+		return to_enum unless block_given?
     i = 0
     output = []
     length.times do
@@ -13,7 +14,8 @@ module Enumerable
     output
   end
 
-  def my_each_with_index(index = 0)
+	def my_each_with_index(index = 0)
+		return to_enum unless block_given?
     output = []
     range = length - index
     range.times do
@@ -23,7 +25,8 @@ module Enumerable
     output
   end
 
-  def my_select(index = 0)
+	def my_select(index = 0)
+		return to_enum unless block_given?
     output = []
     range = length - index
     range.times do
@@ -86,7 +89,7 @@ module Enumerable
   # rubocop: disable Metrics/PerceivedComplexity
   # rubocop: disable Metrics/CyclomaticComplexity
 
-  def my_count(aux = nil)
+	def my_count(aux = nil)
     index = 0
     counter = 0
     if block_given? && aux.nil?
@@ -96,10 +99,10 @@ module Enumerable
       end
     elsif block_given? && !aux.nil?
       while index < length
-        counter += 1 if self[index] == aux # && yield(self[index]) == true
+        counter += 1 if self[index] == aux
         index += 1
       end
-      return "#{counter} 'warning: given block not used'"
+      return "#{counter} warning: given block not used"
     elsif !block_given? && aux.nil?
       return length
     else
@@ -157,5 +160,6 @@ arr = [1, 1, 1, 1, 2]
 # puts arr.my_inject(1) { |sum, n| sum + n }
 # puts arr.inject(1) { |sum, n| sum + n }
 
-puts arr.count(1)
-puts arr.my_count(1)
+# puts arr.my_each(2)
+puts arr.my_count(1) { |x| x > 1 }
+puts arr.count(1) { |x| x > 1 }
