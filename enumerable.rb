@@ -3,8 +3,9 @@
 # rubocop: disable Metrics/ModuleLength
 # doc comment
 module Enumerable
-	def my_each
-		return to_enum unless block_given?
+  def my_each
+    return to_enum unless block_given?
+
     i = 0
     output = []
     length.times do
@@ -14,8 +15,9 @@ module Enumerable
     output
   end
 
-	def my_each_with_index(index = 0)
-		return to_enum unless block_given?
+  def my_each_with_index(index = 0)
+    return to_enum unless block_given?
+
     output = []
     range = length - index
     range.times do
@@ -25,8 +27,9 @@ module Enumerable
     output
   end
 
-	def my_select(index = 0)
-		return to_enum unless block_given?
+  def my_select(index = 0)
+    return to_enum unless block_given?
+
     output = []
     range = length - index
     range.times do
@@ -89,7 +92,7 @@ module Enumerable
   # rubocop: disable Metrics/PerceivedComplexity
   # rubocop: disable Metrics/CyclomaticComplexity
 
-	def my_count(aux = nil)
+  def my_count(aux = nil)
     index = 0
     counter = 0
     if block_given? && aux.nil?
