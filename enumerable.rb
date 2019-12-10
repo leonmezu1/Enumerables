@@ -15,9 +15,10 @@ module Enumerable
     output
   end
 
-  def my_each_with_index(index = 0)
+  def my_each_with_index
     return to_enum unless block_given?
 
+		index = 0
     output = []
     range = length - index
     range.times do
@@ -39,7 +40,8 @@ module Enumerable
     output
   end
 
-  def my_all?(index = 0)
+	def my_all?
+		index = 0
     output = true
     unless block_given?
       while index < length
@@ -56,7 +58,8 @@ module Enumerable
     output
   end
 
-  def my_any?(index = 0)
+	def my_any?
+		index = 0
     output = false
     unless block_given?
       while index < length
@@ -73,7 +76,8 @@ module Enumerable
     output
   end
 
-  def my_none?(index = 0)
+	def my_none?
+		index = 0
     output = true
     unless block_given?
       while index < length
@@ -120,9 +124,10 @@ module Enumerable
   # rubocop: enable Metrics/PerceivedComplexity
   # rubocop: enable Metrics/CyclomaticComplexity
 
-  def my_map(index = 0)
+	def my_map
     return self unless block_given?
 
+		index = 0
     output = []
     range = length - index
     range.times do
@@ -158,11 +163,17 @@ end
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
 # puts [1, 2, 3, 4, 5, 6].my_map(3) { |x| x * x }
 
-arr = [1, 1, 1, 1, 2]
+arr = [/m/, 1, 1, 1, 2]
 
 # puts arr.my_inject(1) { |sum, n| sum + n }
 # puts arr.inject(1) { |sum, n| sum + n }
 
 # puts arr.my_each(2)
-puts arr.my_count(1) { |x| x > 1 }
-puts arr.count(1) { |x| x > 1 }
+# puts arr.my_count(1) { |x| x > 1 }
+# puts arr.count(1) { |x| x > 1 }
+
+# puts arr.my_each { |x| x * 3 }
+
+puts arr.respond_to?(:Array)
+
+puts ( /m/ ).is_a?(Regexp)
