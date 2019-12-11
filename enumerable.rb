@@ -104,18 +104,20 @@ module Enumerable
     elsif parameter.size.eql?(1) && parameter[0].is_a?(Symbol)
       memo = first
       my_each_with_index { |x, i| memo = memo.send(parameter[0], x) unless i.eql?(0) }
-      p 'im triggering case 2'
     elsif parameter.size.eql?(2) && parameter[0].is_a?(Numeric) && parameter[1].instance_of?(Symbol)
       memo = parameter[0]
       my_each { |x| memo = memo.send(parameter[1], x) }
-      p 'im triggering case 3'
     elsif parameter.size.eql?(0) && block_given?
       memo = first
       my_each_with_index { |x, i| memo = yield(memo, x) unless i.eql?(0) }
     else puts 'Incorrect parameters input'
     end
     memo
-  end
+	end
+	
+	def multiply_els
+		my_inject {|sum, n| sum * n}
+	end
 end
 # rubocop: enable Metrics/PerceivedComplexity
 # rubocop: enable Metrics/CyclomaticComplexity
@@ -169,3 +171,5 @@ end
 # puts arr.none?(20) # { |x| x.length > 10 }
 # print arr.my_any?('calm') # { |x| x.length > 7 }
 # print arr.any?('calm') # { |x| x.length > 7 }
+
+puts [2, 4, 5].multiply_els
