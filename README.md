@@ -9,11 +9,10 @@
     <a href="https://github.com/leonmezu1/Enumerables/tree/feature"><strong>Explore the repo »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/leonmezu1/Enumerables/issues">Report Bug</a>
 		<br />
-		<img src="picture/Lsplash.gif" alt="splash.gif" style="border-radius: 8px;">
 		<img src="picture/splash2.gif" alt="splash2.gif" style="border-radius: 8px;">
 		<br />
+  <a href="https://github.com/leonmezu1/Enumerables/issues">Report Bug</a>
   </p>
 </p>
 <!-- TABLE OF CONTENTS -->
