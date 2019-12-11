@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 # rubocop: disable Metrics/ModuleLength
+# rubocop: disable Metrics/PerceivedComplexity
+# rubocop: disable Metrics/CyclomaticComplexity
+
 # doc comment
 module Enumerable
   def my_each
@@ -21,81 +24,59 @@ module Enumerable
     self
   end
 
-  def my_select(index = 0)
+  def my_select
     return to_enum unless block_given?
 
     output = []
-    range = length - index
-    range.times do
-      output.push(self[index]) if yield(self[index])
-      index += 1
-    end
+    my_each { |x| output.push(x) if yield(x) }
     output
   end
 
-  def class_pat_or_eql(inspected, pattern)
-    (inspected.respond_to?(:is_a?) && inspected.eql?(pattern)) ||
-      (pattern.is_a?(Class) && inspected.is_a?(pattern)) ||
-      (pattern.is_a?(Regexp) && pattern.match(inspected))
+  # Helper method for boolean return methods
+  def inspect_method(item, c_p_v)
+    (item.respond_to?(:eql?) && item.eql?(c_p_v)) ||
+      (c_p_v.is_a?(Class) && item.is_a?(c_p_v)) ||
+      (c_p_v.is_a?(Regexp) && item.respond_to?(:match) && item.match(c_p_v)) ||
+      (c_p_v.eql?(nil) && item.eql?(nil))
   end
 
-  def my_all?
-    index = 0
+  def my_all?(aux = 'NonPrmts')
     output = true
-    unless block_given?
-      while index < length
-        return false if self[index] == false
-
-        index += 1
-      end
-    end
-    while index < length
-      return false if yield(self[index]) == false
-
-      index += 1
+    if block_given?
+      my_each { |x| return false unless yield(x) }
+    elsif !aux.eql?('NonPrmts')
+      my_each { |x| return false unless inspect_method(x, aux) }
+    elsif aux
+      my_each { |x| return false unless x }
     end
     output
   end
 
-  def my_any?
-    index = 0
+  def my_any?(aux = 'NonPrmts')
     output = false
-    unless block_given?
-      while index < length
-        return true if self[index] == true
-
-        index += 1
-      end
-    end
-    while index < length
-      return true if yield(self[index]) == true
-
-      index += 1
+    if block_given?
+      my_each { |x| return true if yield(x) }
+    elsif !aux.eql?('NonPrmts')
+      my_each { |x| return true if inspect_method(x, aux) }
+    elsif aux
+      my_each { |x| return true if x }
     end
     output
   end
 
-  def my_none?
-    index = 0
+  def my_none?(aux = 'NonPrmts')
     output = true
-    unless block_given?
-      while index < length
-        return false if self[index] == true
-
-        index += 1
-      end
-    end
-    while index < length
-      return false if yield(self[index]) == true
-
-      index += 1
+    if block_given?
+      my_each { |x| return false if yield(x) }
+    elsif !aux.eql?('NonPrmts')
+      my_each { |x| return false if inspect_method(x, aux) }
+    elsif aux
+      my_each { |x| return false if x }
     end
     output
   end
-  # rubocop: disable Metrics/PerceivedComplexity
-  # rubocop: disable Metrics/CyclomaticComplexity
 
-  def my_count(aux = nil)
+  def my_count(aux = 'NonPrmts')
     index = 0
     counter = 0
     if block_given? && aux.nil?
@@ -119,9 +100,6 @@ module Enumerable
     end
     counter
   end
-
-  # rubocop: enable Metrics/PerceivedComplexity
-  # rubocop: enable Metrics/CyclomaticComplexity
 
   def my_map
     return self unless block_given?
@@ -152,10 +130,12 @@ module Enumerable
 end
 
 # rubocop: enable Metrics/ModuleLength
+# rubocop: enable Metrics/PerceivedComplexity
+# rubocop: enable Metrics/CyclomaticComplexity
 
-print [1, 2, 3, 4, 5, 6].each
-puts "\n"
-print [1, 2, 3, 4, 5, 6].my_each
+# print [1, 2, 3, 4, 5, 6].each
+# puts "\n"
+# print [1, 2, 3, 4, 5, 6].my_each
 # puts [1, 2, 3, 4, 5, 6].my_each_with_index(2) { |x| x * 3 }
 # puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
 # puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
@@ -164,7 +144,9 @@ print [1, 2, 3, 4, 5, 6].my_each
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
 # puts [1, 2, 3, 4, 5, 6].my_map(3) { |x| x * x }
 
-# arr = [/m/, 1, 1, 1, 2]
+arr = ['mandragora', 'calm', 'hamster']
+nilarr = [nil, nil, nil]
+truearr = [true, true, true]
 
 # puts arr.my_inject(1) { |sum, n| sum + n }
 # puts arr.inject(1) { |sum, n| sum + n }
@@ -178,3 +160,12 @@ print [1, 2, 3, 4, 5, 6].my_each
 # puts arr.respond_to?(:Array)
 
 # print %w[abnt abnt abnt].all?('abnt')
+
+# puts arr.my_all?(String) { |x| x.length > 2 }
+# puts arr.all?(String) { |x| x.length > 2 }
+# puts truearr.my_all?(nil) # { |x| x.length > 7 }
+# puts truearr.all?(nil) # { |x| x.length > 7 }
+puts arr.my_none?(20) { |x| x.length > 10 }
+puts arr.none?(20) { |x| x.length > 10 }
+# print arr.my_any?('calm') # { |x| x.length > 7 }
+# print arr.any?('calm') # { |x| x.length > 7 }
