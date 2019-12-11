@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
+# rubocop: disable Metrics/PerceivedComplexity,
+# rubocop: disable Metrics/CyclomaticComplexity
 
 # doc comment custom enumerable methods
 module Enumerable
@@ -123,4 +124,5 @@ module Enumerable
   end
 end
 
-# rubocop: enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexityMetrics/CyclomaticComplexity
+# rubocop: enable Metrics/PerceivedComplexity,
+# rubocop: enable Metrics/CyclomaticComplexity
