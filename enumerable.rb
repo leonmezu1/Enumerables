@@ -8,8 +8,8 @@ module Enumerable
   def my_each
     return to_enum unless block_given?
 
-    length.times do |index|
-      yield self[index]
+    for index in self # rubocop:disable Style/For
+      yield(index)
     end
     self
   end
@@ -96,19 +96,29 @@ module Enumerable
   end
 
   def my_inject(*parameter)
-    return self unless block_given?
+    return to_enum if !block_given? && parameter[0].eql?(Symbol)
 
-    memo = 0
-    if parameter.size.eql?(1) && parameter[0].instance_of(Integer)
-      my_each { |x| memo += yield(x) }
+    if parameter.size.eql?(1) && parameter[0].instance_of?(Integer)
+      memo = parameter[0]
+      my_each { |x| memo = yield(memo, x) }
+      p 'im triggering case 1'
     elsif parameter.size.eql?(1) && parameter[0].is_a?(Symbol)
-      my_each { |x| memo += yield(x) }
-    elsif parameter.size.eql?(2) && parameter[0].instance_of(Integer) && parameter[1].is_a?(Symbol)
-      my_each { |x| memo += yield(x) }
-    elsif parameter.size.eql?(0)
-      my_each { |x| memo += yield(x) }
-    else puts 'Incorrect
-			 parameters input'
+      # my_each { |x| memo += yield(x) }
+      p 'im triggering case 2'
+    elsif parameter.size.eql?(2) && parameter[0].instance_of?(Integer) && parameter[1].is_a?(Symbol)
+      # my_each { |x| memo += yield(x) }
+      p 'im triggering case 3'
+    elsif parameter.size.eql?(0) && block_given?
+      memo = 0
+      # .slice!(1..-1).my_each { |x| memo += yield(x) } if is_a?(Range)
+      my_each { |x| memo = yield(memo, x) }
+      p 'im triggering case 4'
+    elsif parameter[0].eql?(0) && block_given?
+      memo = 0
+      # .slice!(1..-1).my_each { |x| memo += yield(x) } if is_a?(Range)
+      my_each { |x| memo = yield(memo, x) }
+      p 'im triggering case 5'
+    else puts 'Incorrect parameters input'
     end
     memo
   end
@@ -125,25 +135,28 @@ end
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
 # puts [false, false].my_none?
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
-print [20, 26, 35, 4, 5, 6].my_map { |x| x + 3 }
-puts ''
-print [20, 26, 35, 4, 5, 6].map { |x| x + 3 }
+# print [20, 26, 35, 4, 5, 6].my_map { |x| x + 3 }
+# puts ''
+# print [20, 26, 35, 4, 5, 6].map { |x| x + 3 }
 
 # arr = %w[mandragora calm hamster]
 
-# arr = [1, 2, 3, 4, 5, 6, 7]
+# print arr = %w[mandragora calm hamster].my_map { |x| x + '3' }
+# puts ''
+# print arr = %w[mandragora calm hamster].map { |x| x + '3' }
 # nilarr = [nil, nil, nil]
 # truearr = [true, true, true, 1]
 
-# puts (5..10).inject { |sum, x| sum + x }
+puts (5..10).inject(1) { |sum, x| sum - x }
 
-# puts [5, 6, 7, 8, 9, 10].my_inject { |sum, x| sum + x }
+puts (5..10).my_inject(1) { |sum, x| sum - x }
 # puts arr.my_each(2)
 # puts truearr.my_count
 # puts truearr.my_count
 # puts truearr.count
 # puts truearr.count
 
+(5..10).my_each { |n| print n, ' ' }
 # puts arr.my_each { |x| x * 3 }
 
 # puts arr.respond_to?(:Array)
