@@ -11,14 +11,14 @@
     <br />
     <a href="https://github.com/leonmezu1/Enumerables/issues">Report Bug</a>
 		<br />
-		<img src="picture/LastPicture.png" alt="splash.gif" style="border-radius: 8px;">
-		<img src="picture/LastPicture.png" alt="splash2.gif" style="border-radius: 8px;">
+		<img src="picture/Lsplash.gif" alt="splash.gif" style="border-radius: 8px;">
+		<img src="picture/splash2.gif" alt="splash2.gif" style="border-radius: 8px;">
 		<br />
   </p>
 </p>
 <!-- TABLE OF CONTENTS -->
 
-## Table of Contents
+## Index
 - [About the Project](#about-the-project)
 - [Built With](#built-with)
 - [Contact](#contact)
@@ -44,7 +44,7 @@ As result the new methods are:
 
 Some extra testing requires:
 
-* Test #my_inject by creating a method called #multiply_els which multiplies all the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5]) #=> 40
+* Test #my_inject by creating a method called #multiply_els which multiplies all the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5])
 * Modify #my_map method to take procs instead.
 * Modify #my_map method to take either a proc or a block. If both are given, preference to the proc.
 
