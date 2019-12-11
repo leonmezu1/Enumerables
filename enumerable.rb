@@ -91,17 +91,28 @@ module Enumerable
     return to_enum unless block_given?
 
     output = []
-    length.times { |x| output.push(yield(self[x])) }
+    my_each { |x| output.push(yield(x)) }
     output
   end
 
-  def my_inject(*)
+  def my_inject(*parameter)
     return self unless block_given?
 
-    # sum += sum if block_given? && initial.instance_of?(Integer)
+    memo = 0
+    if parameter.size.eql?(1) && parameter[0].instance_of(Integer)
+      my_each { |x| memo += yield(x) }
+    elsif parameter.size.eql?(1) && parameter[0].is_a?(Symbol)
+      my_each { |x| memo += yield(x) }
+    elsif parameter.size.eql?(2) && parameter[0].instance_of(Integer) && parameter[1].is_a?(Symbol)
+      my_each { |x| memo += yield(x) }
+    elsif parameter.size.eql?(0)
+      my_each { |x| memo += yield(x) }
+    else puts 'Incorrect
+			 parameters input'
+    end
+    memo
   end
 end
-
 # rubocop: enable Metrics/PerceivedComplexity
 # rubocop: enable Metrics/CyclomaticComplexity
 
@@ -114,9 +125,9 @@ end
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
 # puts [false, false].my_none?
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
-# print [1, 2, 3, 4, 5, 6].my_map { |x| x ^ 3 }.my_select { |x| x > 1 }
-# puts ''
-# print [1, 2, 3, 4, 5, 6].map { |x| x ^ 3 }.select { |x| x > 1 }
+print [20, 26, 35, 4, 5, 6].my_map { |x| x + 3 }
+puts ''
+print [20, 26, 35, 4, 5, 6].map { |x| x + 3 }
 
 # arr = %w[mandragora calm hamster]
 
@@ -125,7 +136,8 @@ end
 # truearr = [true, true, true, 1]
 
 # puts (5..10).inject { |sum, x| sum + x }
-# puts (5..10).my_inject { |sum, x| sum + x }
+
+# puts [5, 6, 7, 8, 9, 10].my_inject { |sum, x| sum + x }
 # puts arr.my_each(2)
 # puts truearr.my_count
 # puts truearr.my_count
