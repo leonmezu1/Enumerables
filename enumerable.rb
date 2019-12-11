@@ -3,7 +3,7 @@
 # rubocop: disable Metrics/PerceivedComplexity
 # rubocop: disable Metrics/CyclomaticComplexity
 
-# doc comment
+# doc comment custom enumerable methods
 module Enumerable
   def my_each
     return to_enum unless block_given?
@@ -17,7 +17,7 @@ module Enumerable
   def my_each_with_index
     return to_enum unless block_given?
 
-    length.times do |index|
+    for index in (0...size) # rubocop:disable Style/For
       yield(self[index], index)
     end
     self
@@ -98,26 +98,20 @@ module Enumerable
   def my_inject(*parameter)
     return to_enum if !block_given? && parameter[0].eql?(Symbol)
 
-    if parameter.size.eql?(1) && parameter[0].instance_of?(Integer)
+    if parameter.size.eql?(1) && parameter[0].is_a?(Numeric)
       memo = parameter[0]
       my_each { |x| memo = yield(memo, x) }
-      p 'im triggering case 1'
     elsif parameter.size.eql?(1) && parameter[0].is_a?(Symbol)
-      # my_each { |x| memo += yield(x) }
+      memo = first
+      my_each_with_index { |x, i| memo = memo.send(parameter[0], x) unless i.eql?(0) }
       p 'im triggering case 2'
-    elsif parameter.size.eql?(2) && parameter[0].instance_of?(Integer) && parameter[1].is_a?(Symbol)
-      # my_each { |x| memo += yield(x) }
+    elsif parameter.size.eql?(2) && parameter[0].is_a?(Numeric) && parameter[1].instance_of?(Symbol)
+      memo = parameter[0]
+      my_each { |x| memo = memo.send(parameter[1], x) }
       p 'im triggering case 3'
     elsif parameter.size.eql?(0) && block_given?
-      memo = 0
-      # .slice!(1..-1).my_each { |x| memo += yield(x) } if is_a?(Range)
-      my_each { |x| memo = yield(memo, x) }
-      p 'im triggering case 4'
-    elsif parameter[0].eql?(0) && block_given?
-      memo = 0
-      # .slice!(1..-1).my_each { |x| memo += yield(x) } if is_a?(Range)
-      my_each { |x| memo = yield(memo, x) }
-      p 'im triggering case 5'
+      memo = first
+      my_each_with_index { |x, i| memo = yield(memo, x) unless i.eql?(0) }
     else puts 'Incorrect parameters input'
     end
     memo
@@ -126,10 +120,14 @@ end
 # rubocop: enable Metrics/PerceivedComplexity
 # rubocop: enable Metrics/CyclomaticComplexity
 
+# my_each_with_index { |i, x| memo = yield(memo, x) if i.positive?}
+
 # print [1, 2, 3, 4, 5, 6].each
 # puts "\n"
 # print [1, 2, 3, 4, 5, 6].my_each
-# puts [1, 2, 3, 4, 5, 6].my_each_with_index(2) { |x| x * 3 }
+# print [2, 2, 3, 4, 5, 6].each_with_index { |value, index| puts "#{value} : #{index}" }
+# puts "\n--------------"
+# print [2, 2, 3, 4, 5, 6].my_each_with_index { |value, index| puts "#{value} : #{index}" }
 # puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
 # puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
@@ -139,7 +137,7 @@ end
 # puts ''
 # print [20, 26, 35, 4, 5, 6].map { |x| x + 3 }
 
-# arr = %w[mandragora calm hamster]
+# truearr = %w[mandragora calm hamster]
 
 # print arr = %w[mandragora calm hamster].my_map { |x| x + '3' }
 # puts ''
@@ -147,16 +145,16 @@ end
 # nilarr = [nil, nil, nil]
 # truearr = [true, true, true, 1]
 
-puts (5..10).inject(1) { |sum, x| sum - x }
+# puts [20, 26, 35, 4, 5, 6].inject(:-) # { |sum, x| sum * x }
 
-puts (5..10).my_inject(1) { |sum, x| sum - x }
+# puts [20, 26, 35, 4, 5, 6].my_inject(:-) # { |sum, x| sum * x }
 # puts arr.my_each(2)
 # puts truearr.my_count
 # puts truearr.my_count
 # puts truearr.count
 # puts truearr.count
 
-(5..10).my_each { |n| print n, ' ' }
+# (5..10).my_each { |n| print n, ' ' }
 # puts arr.my_each { |x| x * 3 }
 
 # puts arr.respond_to?(:Array)
