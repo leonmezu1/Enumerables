@@ -113,11 +113,11 @@ module Enumerable
     else puts 'Incorrect parameters input'
     end
     memo
-	end
-	
-	def multiply_els
-		my_inject {|sum, n| sum * n}
-	end
+  end
+
+  def multiply_els
+    my_inject { |sum, n| sum * n }
+  end
 end
 # rubocop: enable Metrics/PerceivedComplexity
 # rubocop: enable Metrics/CyclomaticComplexity
