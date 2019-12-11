@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/PerceivedComplexity
-# rubocop: disable Metrics/CyclomaticComplexity
+# rubocop: disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
 
 # doc comment custom enumerable methods
 module Enumerable
@@ -87,11 +86,15 @@ module Enumerable
     counter
   end
 
-  def my_map
+  def my_map(proc = nil)
     return to_enum unless block_given?
 
     output = []
-    my_each { |x| output.push(yield(x)) }
+    if !proc
+      my_each { |x| output.push(yield x) }
+    else
+      my_each { |x| output.push(proc.call(x)) }
+    end
     output
   end
 
@@ -119,57 +122,5 @@ module Enumerable
     my_inject { |sum, n| sum * n }
   end
 end
-# rubocop: enable Metrics/PerceivedComplexity
-# rubocop: enable Metrics/CyclomaticComplexity
 
-# my_each_with_index { |i, x| memo = yield(memo, x) if i.positive?}
-
-# print [1, 2, 3, 4, 5, 6].each
-# puts "\n"
-# print [1, 2, 3, 4, 5, 6].my_each
-# print [2, 2, 3, 4, 5, 6].each_with_index { |value, index| puts "#{value} : #{index}" }
-# puts "\n--------------"
-# print [2, 2, 3, 4, 5, 6].my_each_with_index { |value, index| puts "#{value} : #{index}" }
-# puts [1, 2, 3, 4, 5, 6].my_select { |x| x >= 4 }
-# puts [1, 2, 3, 4, 5, 6].my_all? { |x| x <= 6 }
-# puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
-# puts [false, false].my_none?
-# puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
-# print [20, 26, 35, 4, 5, 6].my_map { |x| x + 3 }
-# puts ''
-# print [20, 26, 35, 4, 5, 6].map { |x| x + 3 }
-
-# truearr = %w[mandragora calm hamster]
-
-# print arr = %w[mandragora calm hamster].my_map { |x| x + '3' }
-# puts ''
-# print arr = %w[mandragora calm hamster].map { |x| x + '3' }
-# nilarr = [nil, nil, nil]
-# truearr = [true, true, true, 1]
-
-# puts [20, 26, 35, 4, 5, 6].inject(:-) # { |sum, x| sum * x }
-
-# puts [20, 26, 35, 4, 5, 6].my_inject(:-) # { |sum, x| sum * x }
-# puts arr.my_each(2)
-# puts truearr.my_count
-# puts truearr.my_count
-# puts truearr.count
-# puts truearr.count
-
-# (5..10).my_each { |n| print n, ' ' }
-# puts arr.my_each { |x| x * 3 }
-
-# puts arr.respond_to?(:Array)
-
-# print %w[abnt abnt abnt].all?('abnt')
-
-# puts arr.my_all?(String) { |x| x.length > 2 }
-# puts arr.all?(String) { |x| x.length > 2 }
-# puts truearr.my_all?(nil) # { |x| x.length > 7 }
-# puts truearr.all?(nil) # { |x| x.length > 7 }
-# puts arr.my_none?(20) # { |x| x.length > 10 }
-# puts arr.none?(20) # { |x| x.length > 10 }
-# print arr.my_any?('calm') # { |x| x.length > 7 }
-# print arr.any?('calm') # { |x| x.length > 7 }
-
-puts [2, 4, 5].multiply_els
+# rubocop: enable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexityMetrics/CyclomaticComplexity
