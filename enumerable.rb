@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop: disable Metrics/ModuleLength
 # rubocop: disable Metrics/PerceivedComplexity
 # rubocop: disable Metrics/CyclomaticComplexity
 
@@ -77,28 +76,15 @@ module Enumerable
   end
 
   def my_count(aux = 'NonPrmts')
-    index = 0
     counter = 0
-    if block_given? && aux.nil?
-      while index < length
-        counter += 1 if yield(self[index]) == true
-        index += 1
-      end
-    elsif block_given? && !aux.nil?
-      while index < length
-        counter += 1 if self[index] == aux
-        index += 1
-      end
-      return "#{counter} warning: given block not used"
-    elsif !block_given? && aux.nil?
-      return length
-    else
-      while index < length
-        counter += 1 if self[index] == aux
-        index += 1
-      end
+    if !aux.eql?('NonPrmts')
+      my_each { |x| counter += 1 if x.eql?(aux) }
+    elsif block_given?
+      my_each { |x| counter += 1 if yield(x) }
     end
-    counter
+    return length if !block_given? && aux.eql?('NonPrmts')
+
+    puts counter, 'Hey llegue al final'
   end
 
   def my_map
@@ -129,7 +115,6 @@ module Enumerable
   end
 end
 
-# rubocop: enable Metrics/ModuleLength
 # rubocop: enable Metrics/PerceivedComplexity
 # rubocop: enable Metrics/CyclomaticComplexity
 
@@ -144,16 +129,18 @@ end
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
 # puts [1, 2, 3, 4, 5, 6].my_map(3) { |x| x * x }
 
-arr = ['mandragora', 'calm', 'hamster']
-nilarr = [nil, nil, nil]
-truearr = [true, true, true]
+# arr = %w[mandragora calm hamster]
+# nilarr = [nil, nil, nil]
+truearr = [true, true, true, 1]
 
 # puts arr.my_inject(1) { |sum, n| sum + n }
 # puts arr.inject(1) { |sum, n| sum + n }
 
 # puts arr.my_each(2)
-# puts arr.my_count(1) { |x| x > 1 }
-# puts arr.count(1) { |x| x > 1 }
+puts truearr.my_count
+# puts truearr.my_count
+puts truearr.count
+# puts truearr.count
 
 # puts arr.my_each { |x| x * 3 }
 
@@ -165,7 +152,7 @@ truearr = [true, true, true]
 # puts arr.all?(String) { |x| x.length > 2 }
 # puts truearr.my_all?(nil) # { |x| x.length > 7 }
 # puts truearr.all?(nil) # { |x| x.length > 7 }
-puts arr.my_none?(20) { |x| x.length > 10 }
-puts arr.none?(20) { |x| x.length > 10 }
+# puts arr.my_none?(20) # { |x| x.length > 10 }
+# puts arr.none?(20) # { |x| x.length > 10 }
 # print arr.my_any?('calm') # { |x| x.length > 7 }
 # print arr.any?('calm') # { |x| x.length > 7 }
