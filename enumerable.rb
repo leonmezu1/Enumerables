@@ -84,34 +84,21 @@ module Enumerable
     end
     return length if !block_given? && aux.eql?('NonPrmts')
 
-    puts counter, 'Hey llegue al final'
+    counter
   end
 
   def my_map
-    return self unless block_given?
+    return to_enum unless block_given?
 
-    index = 0
     output = []
-    range = length - index
-    range.times do
-      output.push(yield(self[index]))
-      index += 1
-    end
+    length.times { |x| output.push(yield(self[x])) }
     output
   end
 
-  def my_inject(aux = 0)
-    return self if length < 2
+  def my_inject(*)
+    return self unless block_given?
 
-    accumulator = yield(yield(self[0], aux), self[1])
-    if length > 2
-      i = 2
-      length - 2.times do
-        accumulator = yield(accumulator, self[i])
-        i += 1
-      end
-    end
-    accumulator
+    # sum += sum if block_given? && initial.instance_of?(Integer)
   end
 end
 
@@ -127,19 +114,22 @@ end
 # puts [1, 2, 3, 4, 5, 6, 8].my_any?(2) { |x| x > 8 }
 # puts [false, false].my_none?
 # puts [1, 2, 3, 4, 5, 6].my_count(3) { |x| x >= 5 }
-# puts [1, 2, 3, 4, 5, 6].my_map(3) { |x| x * x }
+# print [1, 2, 3, 4, 5, 6].my_map { |x| x ^ 3 }.my_select { |x| x > 1 }
+# puts ''
+# print [1, 2, 3, 4, 5, 6].map { |x| x ^ 3 }.select { |x| x > 1 }
 
 # arr = %w[mandragora calm hamster]
+
+# arr = [1, 2, 3, 4, 5, 6, 7]
 # nilarr = [nil, nil, nil]
-truearr = [true, true, true, 1]
+# truearr = [true, true, true, 1]
 
-# puts arr.my_inject(1) { |sum, n| sum + n }
-# puts arr.inject(1) { |sum, n| sum + n }
-
+# puts (5..10).inject { |sum, x| sum + x }
+# puts (5..10).my_inject { |sum, x| sum + x }
 # puts arr.my_each(2)
-puts truearr.my_count
 # puts truearr.my_count
-puts truearr.count
+# puts truearr.my_count
+# puts truearr.count
 # puts truearr.count
 
 # puts arr.my_each { |x| x * 3 }
