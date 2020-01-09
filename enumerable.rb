@@ -14,7 +14,7 @@ module Enumerable
     self
   end
 
-  def my_each_with_index
+  def my_each_with_index(_proc = nil)
     return to_enum unless block_given?
 
     for index in (0...size) # rubocop:disable Style/For
