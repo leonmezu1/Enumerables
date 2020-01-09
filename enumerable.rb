@@ -5,7 +5,7 @@
 
 # doc comment custom enumerable methods
 module Enumerable
-  def my_each
+  def my_each(_proc = nil)
     return to_enum unless block_given?
 
     for index in self # rubocop:disable Style/For
