@@ -100,7 +100,7 @@ module Enumerable
   end
 
   def my_inject(*parameter)
-    return to_enum if !block_given? && parameter[0].eql?(Symbol)
+    return to_enum if !block_given? && parameter.empty?
 
     if parameter.size.eql?(1) && parameter[0].is_a?(Numeric)
       memo = parameter[0]

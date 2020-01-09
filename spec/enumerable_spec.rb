@@ -185,26 +185,48 @@ RSpec.describe 'Enumerables' do
   end
 
   describe '#my_map' do
-    it 'return an enumerator if no block is given' do
+    it 'returns an enumerator if no block is given' do
       expect(arr1.my_map).to be_a(Enumerator)
     end
-  end
 
-  describe '#my_each' do
-    it '' do
-      # statement
+    it 'returns a new object according the given block specifications' do
+      expect(arr1.my_map { |item| item + 1 }).to eq([2, 3, 4, 5, 6])
+    end
+
+    it 'returns a new object according specifications if a proc is given' do
+      pro = proc { |item| item * 2 }
+      expect(arr1.my_map(&pro)).to eq([2, 4, 6, 8, 10])
     end
   end
 
-  describe '#my_each' do
-    it '' do
-      # statement
+  describe '#my_inject' do
+    it 'returns the accumulate of certain algebraic operation' do
+      expect(arr1.my_inject(:+)).to eq(15)
+    end
+
+    it 'returns the accumulate of certain algebraic operation with an initial accumulator' do
+      expect(arr1.my_inject(3, :+)).to eq(18)
+    end
+
+    context 'accumulate of other algebraic operations' do
+      it { expect(arr1.my_inject(:-)).to eq(-13) }
+      it { expect(arr1.my_inject(:*)).to eq(120) }
+      it { expect(arr1.my_inject(:/)).to eq(0) }
+    end
+
+    it 'returns to enumerator if no block, proc or a validad algebraic symbol op is given' do
+      expect(arr4.my_inject).to be_a(Enumerator)
+    end
+
+    it 'returns an operation on each element of the object given a block ~ proc' do
+      block = proc { |prod, n| prod + n }
+      expect(arr1.my_inject(&block)).to eq(arr1.inject(&block))
     end
   end
 
-  describe '#my_each' do
-    it '' do
-      # statement
+  describe '#multiply_els' do
+    it 'returns the result of all the elements multiplied together' do
+      expect([2, 2, 2].multiply_els).to eq(8)
     end
   end
 end
