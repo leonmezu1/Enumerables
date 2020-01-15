@@ -5,7 +5,7 @@
 
 # doc comment custom enumerable methods
 module Enumerable
-  def my_each
+  def my_each(_proc = nil)
     return to_enum unless block_given?
 
     for index in self # rubocop:disable Style/For
@@ -14,7 +14,7 @@ module Enumerable
     self
   end
 
-  def my_each_with_index
+  def my_each_with_index(_proc = nil)
     return to_enum unless block_given?
 
     for index in (0...size) # rubocop:disable Style/For
@@ -100,7 +100,7 @@ module Enumerable
   end
 
   def my_inject(*parameter)
-    return to_enum if !block_given? && parameter[0].eql?(Symbol)
+    return to_enum if !block_given? && parameter.empty?
 
     if parameter.size.eql?(1) && parameter[0].is_a?(Numeric)
       memo = parameter[0]
